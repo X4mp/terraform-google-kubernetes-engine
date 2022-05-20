@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [21.0.1](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/compare/v21.0.0...v21.0.1) (2022-05-20)
+
+
+### Bug Fixes
+
+* convert gcfs_config to dynamic block to prevent node pool recreation ([81686e7](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/81686e7ffb98da59c756691351db1e8ae158c218))
+* trim trailing dash from gcp SA name ([#1243](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/1243)) ([aee12e7](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/aee12e7175d6adf6d73c3bb5808399537ae56b48))
+
 ## [21.0.0](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/compare/v20.0.0...v21.0.0) (2022-05-12)
 
 
