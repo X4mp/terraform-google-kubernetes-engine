@@ -124,8 +124,36 @@ resource "google_container_cluster" "primary" {
   }
 
   maintenance_policy {
-    daily_maintenance_window {
-      start_time = var.maintenance_start_time
+    dynamic "recurring_window" {
+      for_each = local.cluster_maintenance_window_is_recurring
+      content {
+        start_time = var.maintenance_start_time
+        end_time   = var.maintenance_end_time
+        recurrence = var.maintenance_recurrence
+      }
+    }
+
+    dynamic "daily_maintenance_window" {
+      for_each = local.cluster_maintenance_window_is_daily
+      content {
+        start_time = var.maintenance_start_time
+      }
+    }
+
+    dynamic "maintenance_exclusion" {
+      for_each = var.maintenance_exclusions
+      content {
+        exclusion_name = maintenance_exclusion.value.name
+        start_time     = maintenance_exclusion.value.start_time
+        end_time       = maintenance_exclusion.value.end_time
+
+        dynamic "exclusion_options" {
+          for_each = maintenance_exclusion.value.exclusion_scope == null ? [] : [maintenance_exclusion.value.exclusion_scope]
+          content {
+            scope = exclusion_options.value
+          }
+        }
+      }
     }
   }
 
@@ -134,9 +162,9 @@ resource "google_container_cluster" "primary" {
   }
 
   timeouts {
-    create = "45m"
-    update = "45m"
-    delete = "45m"
+    create = lookup(var.timeouts, "create", "45m")
+    update = lookup(var.timeouts, "update", "45m")
+    delete = lookup(var.timeouts, "delete", "45m")
   }
   node_pool {
     name               = "default-pool"
@@ -235,6 +263,7 @@ resource "google_container_cluster" "primary" {
       security_group = authenticator_groups_config.value.security_group
     }
   }
+
 }
 /******************************************
   Create Container Cluster node pools
@@ -250,7 +279,7 @@ resource "google_container_node_pool" "pools" {
 
   cluster = google_container_cluster.primary.name
 
-  version = lookup(each.value, "auto_upgrade", false) ? "" : lookup(
+  version = lookup(each.value, "auto_upgrade", local.default_auto_upgrade) ? "" : lookup(
     each.value,
     "version",
     google_container_cluster.primary.min_master_version,
@@ -374,8 +403,8 @@ resource "google_container_node_pool" "pools" {
   }
 
   timeouts {
-    create = "45m"
-    update = "45m"
-    delete = "45m"
+    create = lookup(var.timeouts, "create", "45m")
+    update = lookup(var.timeouts, "update", "45m")
+    delete = lookup(var.timeouts, "delete", "45m")
   }
 }

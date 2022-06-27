@@ -6,6 +6,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [21.2.0](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/compare/v21.1.0...v21.2.0) (2022-06-22)
+
+
+### Features
+
+* Add keeper for `enable_secure_boot` nodepool option for update variant. ([#1277](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/1277)) ([a8b6f20](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/a8b6f2001ac94a24f4e2c7b402e713e1173a999a))
+* Add maintenance variables for safer cluster ([#1282](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/1282)) ([19f59c4](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/19f59c4d55e0761fac0e37103502c70b90536800))
+* expose timeouts ([6011c80](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/6011c80f139abeecccaeb157e0a93ab28ceb7aab))
+* Recurring maintenance window to GA ([#1262](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/1262)) ([4bba52f](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/4bba52f53402b4a32bf744868fdefe2a82f08829))
+
+
+### Bug Fixes
+
+* source node pools' auto_upgrade configuration from the GKE cluster ([#1293](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/1293)) ([c7c9f44](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/c7c9f4448be74687ad43f4e1b080467ddc3ccaec))
+
+## [21.1.0](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/compare/v21.0.0...v21.1.0) (2022-05-24)
+
+
+### Features
+
+* support database encryption and google group rbac for autopilot ([#1265](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/1265)) ([066149d](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/066149d417bc98cff1feefb8edcb16c7f45a2b51))
+
+
+### Bug Fixes
+
+* convert gcfs_config to dynamic block to prevent node pool recreation ([81686e7](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/81686e7ffb98da59c756691351db1e8ae158c218))
+* trim trailing dash from gcp SA name ([#1243](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/1243)) ([aee12e7](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/aee12e7175d6adf6d73c3bb5808399537ae56b48))
+
 ## [21.0.0](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/compare/v20.0.0...v21.0.0) (2022-05-12)
 
 

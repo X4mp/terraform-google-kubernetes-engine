@@ -120,15 +120,22 @@ resource "google_container_cluster" "primary" {
         exclusion_name = maintenance_exclusion.value.name
         start_time     = maintenance_exclusion.value.start_time
         end_time       = maintenance_exclusion.value.end_time
+
+        dynamic "exclusion_options" {
+          for_each = maintenance_exclusion.value.exclusion_scope == null ? [] : [maintenance_exclusion.value.exclusion_scope]
+          content {
+            scope = exclusion_options.value
+          }
+        }
       }
     }
   }
 
 
   timeouts {
-    create = "45m"
-    update = "45m"
-    delete = "45m"
+    create = lookup(var.timeouts, "create", "45m")
+    update = lookup(var.timeouts, "update", "45m")
+    delete = lookup(var.timeouts, "delete", "45m")
   }
 
   dynamic "resource_usage_export_config" {
@@ -148,6 +155,23 @@ resource "google_container_cluster" "primary" {
   }
 
 
+
+  dynamic "database_encryption" {
+    for_each = var.database_encryption
+
+    content {
+      key_name = database_encryption.value.key_name
+      state    = database_encryption.value.state
+    }
+  }
+
+
+  dynamic "authenticator_groups_config" {
+    for_each = local.cluster_authenticator_security_group
+    content {
+      security_group = authenticator_groups_config.value.security_group
+    }
+  }
 
   notification_config {
     pubsub {

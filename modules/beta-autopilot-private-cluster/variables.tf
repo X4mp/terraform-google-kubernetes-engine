@@ -109,7 +109,7 @@ variable "maintenance_start_time" {
 }
 
 variable "maintenance_exclusions" {
-  type        = list(object({ name = string, start_time = string, end_time = string }))
+  type        = list(object({ name = string, start_time = string, end_time = string, exclusion_scope = string }))
   description = "List of maintenance exclusions. A cluster can have up to three"
   default     = []
 }
@@ -371,4 +371,24 @@ variable "enable_tpu" {
   type        = bool
   description = "Enable Cloud TPU resources in the cluster. WARNING: changing this after cluster creation is destructive!"
   default     = false
+}
+variable "database_encryption" {
+  description = "Application-layer Secrets Encryption settings. The object format is {state = string, key_name = string}. Valid values of state are: \"ENCRYPTED\"; \"DECRYPTED\". key_name is the name of a CloudKMS key."
+  type        = list(object({ state = string, key_name = string }))
+
+  default = [{
+    state    = "DECRYPTED"
+    key_name = ""
+  }]
+}
+
+
+variable "timeouts" {
+  type        = map(string)
+  description = "Timeout for cluster operations."
+  default     = {}
+  validation {
+    condition     = !contains([for t in keys(var.timeouts) : contains(["create", "update", "delete"], t)], false)
+    error_message = "Only create, update, delete timeouts can be specified."
+  }
 }
